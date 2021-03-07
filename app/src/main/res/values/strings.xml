@@ -5,4 +5,15 @@
     <string name="title_activity_score_board_layout">scoreBoardLayout</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="desc">Random Buttons Resources </string>>
+
+
+    <string name="Time">Time </string>>
+    <string name="Score">Score</string>>
+    <string name="Counter">Counter</string>>
+    <string name="Speed">Speed</string>>
+    <string name="bPerSec">b/sec</string>>
+
+
+
 </resources>

@@ -1,16 +1,11 @@
 package com.mycloset.raghul.randombuttons_2;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 
-public class Infoctivity extends AppCompatActivity implements View.OnClickListener{
-
-    private Button infoBackButton;
+public class MemoryButtons extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,21 +20,6 @@ public class Infoctivity extends AppCompatActivity implements View.OnClickListen
 
         //--- To set Full Screen mode ---
 
-
-        setContentView(R.layout.activity_infoctivity);
-
-        infoBackButton = findViewById(R.id.infoBackBackbutton);
-        infoBackButton.setOnClickListener(this);
+        setContentView(R.layout.activity_memory_buttons);
     }
-
-    @Override
-    public void onClick(View view) {
-
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
-
-    }
-
-
-
 }

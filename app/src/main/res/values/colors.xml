@@ -4,5 +4,16 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+    <color name="colorBlack">#000000</color>
+
     <color name="black_overlay">#3c3939</color>
+    <color name="colorYellow">#FFFF00</color>
+
+
+    <color name="colorGreen">#38c96d</color>>
+
+    <color name="backgroundDialog">#f7f7f7</color>>
+
+
+
 </resources>

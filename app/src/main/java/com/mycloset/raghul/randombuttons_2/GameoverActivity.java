@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -20,10 +22,14 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+/*
+
+Developer: Raghul Subramaniam
+Email: raghulmaniam@gmail.com
+
+ */
+
 public class GameoverActivity extends AppCompatActivity implements View.OnClickListener {
-
-    public TextView buttonSpeedView;
-
 
     public TextView score_gameover;
     public TextView counterValue_gameover;
@@ -31,28 +37,35 @@ public class GameoverActivity extends AppCompatActivity implements View.OnClickL
     public TextView buttonSpeedView_gameover;
     public TextView highScore;
     public TextView counterTime;
-
     private ImageView retryButton;
     private ImageView exitButton;
     public ImageView turtle;
+
     public Integer blinkDelay = 100;
-
-    private Handler mHandler = new Handler();
-
-    public FrameLayout mainFrameLayout;
-
     int width;
     int height;
-
     int leftMargin;
     int topMargin;
     int dummyButtonCounter;
+
+    private Handler mHandler = new Handler();
+    public FrameLayout mainFrameLayout;
 
     Random rnd = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //--- To set Full Screen mode ---
+
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        //--- To set Full Screen mode ---
+
         setContentView(R.layout.activity_gameover);
 
         turtle = findViewById(R.id.turtle_gameover);
@@ -184,8 +197,6 @@ public class GameoverActivity extends AppCompatActivity implements View.OnClickL
             mHandler.postDelayed(turleBlink, blinkDelay);
 
         }
-
-
     };
 
     public void zoom_in(FrameLayout layout, int duration) {

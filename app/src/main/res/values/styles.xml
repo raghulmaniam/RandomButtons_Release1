@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -29,4 +29,13 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">
+            @anim/fadein
+        </item>
+        <item name="android:windowExitAnimation">
+            @anim/fadeout
+        </item>
+    </style>
+    
 </resources>

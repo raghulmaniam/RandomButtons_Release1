@@ -1,11 +1,17 @@
 package com.mycloset.raghul.randombuttons_2;
 
+import android.app.ActionBar;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.*;
 import android.widget.LinearLayout.LayoutParams;
 import android.os.Handler;
@@ -30,6 +36,7 @@ import android.widget.Toast;
 
 public class MainGameActivity extends Activity implements View.OnClickListener {
 
+
     public TextView score;
     public TextView timeCounter;
     public TextView counterValue;
@@ -38,7 +45,8 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
     public FrameLayout mainFrameLayout;
     public TextView levelUpText;
     public ConstraintLayout mainConstraintLayout;
-    public Button start;
+
+    //public Button start;
     public Boolean stopRandomButtons;
     public Integer counterUpTimer = 0;
     int counter;
@@ -61,6 +69,9 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
     Random rnd = new Random();
     boolean isSecondTurtleClicked = false;
     private ImageView secondTurtle;
+
+    private ImageView start;
+
     private Handler mHandler = new Handler();
     public Runnable counterUpAfterGame = new Runnable() {
         @Override
@@ -76,7 +87,6 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
             counterValueMain.setText(counterBeforeGameValue);
             counterBeforeGameValue--;
 
-
             if (counterBeforeGameValue > 0)
                 mHandler.postDelayed(counterBeforeGame, 1000);
         }
@@ -84,12 +94,103 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
     private ViewGroup mainLayout;
     private int xDelta;
     private int yDelta;
-    private Runnable secondTutleBlink = new Runnable() {
+
+    Dialog rulesDialog;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        //--- To set Full Screen mode ---
+        super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //--- To set Full Screen mode ---
+
+
+        // ----- Initial ------
+        setContentView(R.layout.activity_main_game);
+        // ----- /Initial------
+
+        bundle = getIntent().getExtras();
+
+        firstNegate = 100;
+        secondNegate = 42;
+        thirdNegate = 15;
+
+        mainLayout = (ConstraintLayout) findViewById(R.id.mainConstraint);
+
+
+        score = findViewById(R.id.scoreTextView);
+        timeCounter = findViewById(R.id.timeValueTextView);
+        counterValue = findViewById(R.id.CounterTextView);
+        counterValueMain = findViewById(R.id.CounterTextViewMain);
+        buttonSpeedView = findViewById(R.id.buttonSpeedView);
+        levelUpText = findViewById(R.id.levelUpText);
+
+        levelUpText.setText("Level Up!!");
+        levelUpText.setVisibility(View.GONE);
+
+        secondTurtle = findViewById(R.id.secondTurtleImage);
+        secondTurtle.setOnClickListener(this);
+        secondTurtle.setOnTouchListener(onTouchListener());
+        secondTurtle.setTag("closed");
+        secondTurtleBlink.run();
+
+
+        mainFrameLayout = findViewById(R.id.mainGameLayout);
+        mainConstraintLayout = findViewById(R.id.mainConstraint);
+
+        //initial values
+        height = 50;
+        width = 50;
+        leftMargin = 1;
+        topMargin = 1;
+        counter = 0;
+        totalButtons = 0;
+        buttonsClicked = 0;
+
+        stopRandomButtons = false;
+        timeCounter.setTextColor(Color.RED);
+
+        delayInMS = RandomButtonsConstants.INITIALDELAY;
+
+        score.setText(Integer.toString(buttonsClicked));
+
+        buttonSpeedView.setText(Long.toString(0));
+
+        //counterValue.setText(Integer.toString(counter));
+        counterValue.setText(Integer.toString(buttonsClicked));
+
+        start = findViewById(R.id.start);
+        start.setOnClickListener(this);
+
+        start.setImageResource(R.mipmap.start);
+        //start.setVisibility(View.VISIBLE);
+
+
+        //rotateLeft(mainFrameLayout, 12000);
+        leftToRight(mainFrameLayout, 8000);
+
+        /*Width
+        Minimum: 50 Maximum: 450
+        Height
+        Minimum: 50 Maximum: 550
+        Left Margin
+        Minimum: 1  Maximum: 300
+        Right Margin
+        Minimum: 1  Minimum: 400
+
+        */
+    }
+
+    private Runnable secondTurtleBlink = new Runnable() {
         @Override
         public void run() {
             if (!isSecondTurtleClicked) {
                 if (secondTurtle.getTag().equals("open")) {
-                    secondTurtle.setImageResource(R.mipmap.turtle_ingame_2_1);
+                    secondTurtle.setImageResource(R.mipmap.turtle_ingame_2_closed);
                     secondTurtle.setTag("closed");
                 } else {
                     secondTurtle.setImageResource(R.mipmap.turtle_ingame_2);
@@ -115,8 +216,7 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
                 else if (blinkDelay == 1801)
                     blinkDelay = 100;
 
-
-                mHandler.postDelayed(secondTutleBlink, blinkDelay);
+                mHandler.postDelayed(secondTurtleBlink, blinkDelay);
 
             }
 
@@ -140,7 +240,7 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
 
                 isSecondTurtleClicked = false;
                 blinkDelay = 810;
-                secondTutleBlink.run();
+                secondTurtleBlink.run();
             }
         }
     };
@@ -323,7 +423,7 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
                     //Number of buttons per second
                     speed = (1000) / (delayInMS);
 
-                    buttonSpeedView.setText(Long.toString(speed) + " Buttons/sec");
+                    buttonSpeedView.setText(Long.toString(speed));
                     mHandler.postDelayed(createButtonRunnable, delayInMS);
                 } else {
                     gameOver();
@@ -338,85 +438,42 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
         }
     };
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
 
-        // ----- Initial ------
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_game);
-        // ----- /Initial------
+    public void showRulesDialog()
+    {
 
+        Button dialogOkay;
 
-        bundle = getIntent().getExtras();
+        rulesDialog = new Dialog(this);
+        rulesDialog.setContentView(R.layout.rules_dialog);
+        rulesDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        firstNegate = 100;
-        secondNegate = 42;
-        thirdNegate = 15;
+        dialogOkay = rulesDialog.findViewById(R.id.dialogOkayButton);
 
-        mainLayout = (ConstraintLayout) findViewById(R.id.mainConstraint);
+        rulesDialog.setCancelable(false);
 
 
-        score = findViewById(R.id.scoreTextView);
-        timeCounter = findViewById(R.id.timeValueTextView);
-        counterValue = findViewById(R.id.CounterTextView);
-        counterValueMain = findViewById(R.id.CounterTextViewMain);
-        buttonSpeedView = findViewById(R.id.buttonSpeedView);
-        levelUpText = findViewById(R.id.levelUpText);
+        Window window = rulesDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        window.getAttributes().windowAnimations=R.style.DialogAnimation;
 
-        levelUpText.setText("Level Up");
-        levelUpText.setVisibility(View.GONE);
-
-        secondTurtle = findViewById(R.id.secondTurtleImage);
-        secondTurtle.setOnClickListener(this);
-        secondTurtle.setOnTouchListener(onTouchListener());
-        secondTurtle.setTag("closed");
-        secondTutleBlink.run();
+        window.setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+        rulesDialog.show();
 
 
-        mainFrameLayout = findViewById(R.id.mainGameLayout);
 
-        mainFrameLayout.setOnClickListener(this);
+        dialogOkay.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view)
+            {
 
-        mainConstraintLayout = findViewById(R.id.mainConstraint);
+                rulesDialog.dismiss();
+                counterBeforeGame();
+                //startGame();
 
-        // mainConstraintLayout.setBackgroundResource(R.drawable.limit_14);
-
-        counter = 0;
-        totalButtons = 0;
-        buttonsClicked = 0;
-
-        //initial values
-        height = 50;
-        width = 50;
-        leftMargin = 1;
-        topMargin = 1;
-        stopRandomButtons = false;
-        timeCounter.setTextColor(Color.RED);
-
-        delayInMS = RandomButtonsConstants.INITIALDELAY;
-
-        score.setText(Integer.toString(buttonsClicked));
-        buttonSpeedView.setText(Long.toString(0) + " Buttons/sec");
-        //counterValue.setText(Integer.toString(counter));
-        counterValue.setText(Integer.toString(buttonsClicked));
-
-        start = findViewById(R.id.start);
-        start.setOnClickListener(this);
-
-
-        //rotateLeft(mainFrameLayout, 12000);
-        leftToRight(mainFrameLayout, 8000);
-
-        /*Width
-        Minimum: 50 Maximum: 450
-        Height
-        Minimum: 50 Maximum: 550
-        Left Margin
-        Minimum: 1  Maximum: 300
-        Right Margin
-        Minimum: 1  Minimum: 400
-
-        */
+            }
+        }
+        );
     }
 
     @Override
@@ -425,11 +482,13 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.start: {
                 removeButton(view);
-                counterBeforeGame();
-                //startGame();
+                counterValueMain.setVisibility(View.VISIBLE);
+
+                showRulesDialog();
                 break;
             }
             case R.id.mainGameLayout: {
+                //Negative Score
                 Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 v.vibrate(50);
 
@@ -445,6 +504,7 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
                 break;
             }
             default: {
+                //Positive Score
                 removeButton(view);
                 counter--;
                 counterValue.setText(Integer.toString(counter));
@@ -495,6 +555,8 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
             }
 
             public void onFinish() {
+
+
                 counterValueMain.setText(Integer.toString(BigDecimal.ZERO.intValue()));
                 customToast("Start");
                 counterValueMain.setText(Integer.toString(0));
@@ -526,12 +588,13 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
     }
 
     public void startGame() {
+
+        mainFrameLayout.setOnClickListener(this);
         createButtonRunnable.run();
     }
 
     public void newButton() {
         Button button = new Button(this);
-        button.setText("Click");
         button.setBackgroundResource(R.drawable.button_selector);
         button.setOnClickListener(this);
 
@@ -559,6 +622,15 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
 
         int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
         button.setBackgroundColor(color);
+
+        GradientDrawable shape =  new GradientDrawable();
+        shape.setCornerRadius( 8 );
+        shape.setStroke(5,Color.BLACK);
+
+        shape.setColor(color);
+
+        //button.setBackgroundColor(color);
+        button.setBackground(shape);
 
 
         //leftMargin = (int) (((getResources().getDisplayMetrics().density) * (randomParam.nextInt(310) + 10) * 0.8) + 0.5f);
@@ -721,5 +793,6 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
         };
     }
 }
+
 
 
