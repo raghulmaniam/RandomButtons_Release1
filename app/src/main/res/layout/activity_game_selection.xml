@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,76 +8,91 @@
     android:layout_margin="10dp"
     android:background="@drawable/margin">
 
-
     <FrameLayout
+
         android:id="@+id/dummyButtonLayout2"
-        android:layout_width="296dp"
-        android:layout_height="472dp"
+        android:layout_width="221dp"
+        android:layout_height="363dp"
+        android:layout_centerInParent="true"
         android:layout_gravity="bottom"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="30dp"
         android:alpha="0.4"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="visible">
 
-        ></FrameLayout>
+        <Button
+            android:id="@+id/dummy_button1"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
 
+            android:layout_marginTop="90dp"
+            android:alpha="1"
+            android:background="@drawable/rules_green"
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="182dp"
-        android:layout_height="29dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="casual"
-        android:text="Game List--"
-        app:layout_constraintBottom_toTopOf="@+id/game1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.087"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.047" />
+            android:text="Today is the day"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            android:layout_gravity="top"
+            >
 
-    <TextView
-        android:id="@+id/game1"
-        android:layout_width="298dp"
-        android:layout_height="46dp"
-        android:layout_above="@+id/game2"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:fontFamily="@font/comic7"
-        android:text="Random Buttons"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        </Button>
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.326"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.096" />
+    </FrameLayout>
 
-    <TextView
-        android:id="@+id/game2"
-        android:layout_width="339dp"
-        android:layout_height="49dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:fontFamily="@font/comic4"
-        android:text="~ Memory Buttons ~"
-        android:textSize="25dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.207"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/game1"
-        app:layout_constraintVertical_bias="0.017" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+       android:layout_centerVertical="true"
+        >
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="182dp"
+            android:layout_height="29dp"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="casual"
+            android:textColor="@color/colorPrimary"
+            android:text="Game List--"
+            />
 
 
-</android.support.constraint.ConstraintLayout>
+
+
+        <Button
+            android:id="@+id/button_game1"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:text="Random Buttons"
+            android:background="@drawable/rules_green"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:textAllCaps="false"
+            android:layout_marginTop="30dp"
+            android:layout_centerHorizontal="true"
+            >
+        </Button>
+
+        <Button
+            android:id="@+id/button_game2"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:text="Memory Buttons"
+            android:background="@drawable/rules_green"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:textAllCaps="false"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="90dp"
+
+            >
+        </Button>
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

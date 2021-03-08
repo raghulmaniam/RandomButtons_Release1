@@ -1,12 +1,15 @@
 package com.mycloset.raghul.randombuttons_2;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,17 +18,24 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.Random;
 
 public class GameSelection extends Activity implements View.OnClickListener {
 
-    public TextView game1;
-    public TextView game2;
+    public Button game1;
+    public Button game2;
 
+    public Button dummyButton;
+
+
+    Dialog rulesDialog;
 
 
     private Handler mHandler = new Handler();
@@ -58,8 +68,8 @@ public class GameSelection extends Activity implements View.OnClickListener {
 
         setContentView(R.layout.activity_game_selection);
 
-        game1 = findViewById(R.id.game1); //Random Buttons
-        game2 = findViewById(R.id.game2); //Memory Buttons
+        game1 = findViewById(R.id.button_game1); //Random Buttons
+        game2 = findViewById(R.id.button_game2); //Memory Buttons
 
 
         mainFrameLayout = findViewById(R.id.dummyButtonLayout2);
@@ -70,9 +80,9 @@ public class GameSelection extends Activity implements View.OnClickListener {
 
         createButtonRunnable.run();
 
-        //zoom_in(mainFrameLayout, 40000);
+        //zoom_in(mainFrameLayout, 400);
 
-        rotate_right(mainFrameLayout, 40000);
+        rotate_right(mainFrameLayout, 80000);
 
 
     }
@@ -89,7 +99,7 @@ public class GameSelection extends Activity implements View.OnClickListener {
     };
 
     public void rotate_right(FrameLayout layout, int duration) {
-        Animation anim = AnimationUtils.loadAnimation(this, R.anim.rotate_right);
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.rotate_and_zoom);
         anim.setDuration(duration);
         anim.setRepeatCount(Animation.INFINITE);
         layout.startAnimation(anim);
@@ -153,23 +163,61 @@ public class GameSelection extends Activity implements View.OnClickListener {
         button.startAnimation(anim);
     }
 
+    public void showRulesDialog()
+    {
+
+        rulesDialog = new Dialog(this);
+        rulesDialog.setContentView(R.layout.rules_dialog);
+        rulesDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        Button dialogOkay;
+        TextView dialogText;
+
+        dialogText = rulesDialog.findViewById(R.id.rulesText);
+        dialogText.setText("Memory Buttons under Development.. Wait for the next patch.. ");
+
+        ImageView dialogImage;
+
+        dialogImage = rulesDialog.findViewById(R.id.dialogImage);
+        dialogImage.setImageResource(R.drawable.happy_smiley);
+
+
+        dialogOkay = rulesDialog.findViewById(R.id.dialogOkayButton);
+        rulesDialog.setCancelable(false);
+
+        Window window = rulesDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        window.getAttributes().windowAnimations=R.style.DialogAnimation;
+        window.setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+        rulesDialog.show();
+
+        dialogOkay.setOnClickListener(new View.OnClickListener(){
+                                          @Override
+                                          public void onClick(View view)
+                                          {
+                                              rulesDialog.dismiss();
+                                          }
+                                      }
+        );
+    }
+
 
     @Override
     public void onClick(View view){
 
         switch (view.getId()) {
-            case R.id.game1: {
+            case R.id.button_game1: {
                 Intent intent = new Intent(getApplicationContext(), MainGameActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fadein, R.anim.zoomin_activity);
 
                 break;
             }
-            case R.id.game2: {
+            case R.id.button_game2: {
                // Intent intent = new Intent(getApplicationContext(), MemoryButtons.class);
                 //startActivity(intent);
-
-                Toast.makeText(getApplicationContext(), "Memory Buttons under Development.. Wait for the next patch.. "  , Toast.LENGTH_SHORT).show();
+                showRulesDialog();
+                //Toast.makeText(getApplicationContext(), "Memory Buttons under Development.. Wait for the next patch.. "  , Toast.LENGTH_SHORT).show();
 
                 break;
             }
@@ -177,4 +225,5 @@ public class GameSelection extends Activity implements View.OnClickListener {
 
     }
 }
+
 

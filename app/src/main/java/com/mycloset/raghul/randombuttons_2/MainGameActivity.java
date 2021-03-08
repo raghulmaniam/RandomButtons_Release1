@@ -443,34 +443,25 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
     {
 
         Button dialogOkay;
-
         rulesDialog = new Dialog(this);
         rulesDialog.setContentView(R.layout.rules_dialog);
         rulesDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
         dialogOkay = rulesDialog.findViewById(R.id.dialogOkayButton);
-
         rulesDialog.setCancelable(false);
-
 
         Window window = rulesDialog.getWindow();
         window.setGravity(Gravity.CENTER);
         window.getAttributes().windowAnimations=R.style.DialogAnimation;
-
         window.setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
         rulesDialog.show();
-
-
 
         dialogOkay.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view)
             {
-
                 rulesDialog.dismiss();
                 counterBeforeGame();
                 //startGame();
-
             }
         }
         );
