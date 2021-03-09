@@ -1,5 +1,7 @@
 package com.mycloset.raghul.randombuttons_2;
 
+import android.app.ActionBar;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,6 +10,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.view.Gravity;
 import android.view.View;
 
 import android.view.Window;
@@ -41,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int leftMargin;
     int topMargin;
     int dummyButtonCounter;
+
+    Dialog rulesDialog;
 
 
     @Override
@@ -149,14 +154,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             case R.id.titleImage:
             case R.id.about: {
-                Intent intent = new Intent(getApplicationContext(), Infoctivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(getApplicationContext(), Infoctivity.class);
+                //startActivity(intent);
+
+                showRulesDialog();
 
                 break;
             }
         }
-
     }
+
+    public void showRulesDialog()
+    {
+
+        rulesDialog = new Dialog(this);
+        rulesDialog.setContentView(R.layout.rules_dialog);
+        rulesDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        Button dialogOkay;
+        TextView dialogText;
+
+        dialogText = rulesDialog.findViewById(R.id.rulesText);
+        dialogText.setText("       Developed By \nRaghul Subramaniam");
+
+        ImageView dialogImage;
+
+        dialogImage = rulesDialog.findViewById(R.id.dialogImage);
+        dialogImage.setImageResource(R.mipmap.ic_launcher_foreground);
+
+        Button button = rulesDialog.findViewById(R.id.dialogOkayButton);
+        button.setText("Back");
+
+
+        dialogOkay = rulesDialog.findViewById(R.id.dialogOkayButton);
+        rulesDialog.setCancelable(false);
+
+        Window window = rulesDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        window.getAttributes().windowAnimations=R.style.DialogAnimation;
+        window.setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+        rulesDialog.show();
+
+        dialogOkay.setOnClickListener(new View.OnClickListener(){
+                                          @Override
+                                          public void onClick(View view)
+                                          {
+                                              rulesDialog.dismiss();
+                                          }
+                                      }
+        );
+    }
+
 
     public void zoom_in(FrameLayout layout, int duration) {
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.zoomin);

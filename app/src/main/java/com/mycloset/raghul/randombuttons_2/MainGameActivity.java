@@ -3,6 +3,7 @@ package com.mycloset.raghul.randombuttons_2;
 import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
@@ -33,6 +34,7 @@ import android.annotation.SuppressLint;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.content.SharedPreferences.Editor;
 
 public class MainGameActivity extends Activity implements View.OnClickListener {
 
@@ -96,6 +98,9 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
     private int yDelta;
 
     Dialog rulesDialog;
+    Dialog gameoverDialog;
+
+    ImageView turtle; //to refactor the variable name
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -474,7 +479,7 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
             case R.id.start: {
                 removeButton(view);
                 counterValueMain.setVisibility(View.VISIBLE);
-
+                //showgameoverDialog();
                 showRulesDialog();
                 break;
             }
@@ -562,9 +567,11 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         v.vibrate(200);
 
-        Toast.makeText(getApplicationContext(), "Game Over!!", Toast.LENGTH_SHORT).show();
+        showgameoverDialog();
 
-        Intent intent = new Intent(MainGameActivity.this, GameoverActivity.class);
+        //Toast.makeText(getApplicationContext(), "Game Over!!", Toast.LENGTH_SHORT).show();
+
+       /* Intent intent = new Intent(MainGameActivity.this, GameoverActivity.class);
         intent.putExtra("score", score.getText().toString());
         intent.putExtra("counter", counterValue.getText().toString());
         intent.putExtra("counterMain", counterValueMain.getText().toString());
@@ -572,7 +579,123 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
         intent.putExtra("timeCounter", counterUpTimer.toString());
 
         startActivity(intent);
+        */
+
+
     }
+
+    public void showgameoverDialog()
+    {
+
+
+
+        gameoverDialog = new Dialog(this);
+        gameoverDialog.setContentView(R.layout.rules_dialog_2);
+        gameoverDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        turtle = gameoverDialog.findViewById(R.id.turtle);
+        turtle.setTag("open");
+        turleBlink.run();
+
+        TextView dialogText;
+
+        dialogText = gameoverDialog.findViewById(R.id.rulesText);
+        dialogText.setText(" Score: ");
+
+
+        Button retryButton = gameoverDialog.findViewById(R.id.dialogRetryButton);
+        Button exitButton = gameoverDialog.findViewById(R.id.dialogExitButton);
+
+
+        gameoverDialog.setCancelable(false);
+
+        Window window = gameoverDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        window.getAttributes().windowAnimations=R.style.DialogAnimation;
+        window.setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+        gameoverDialog.show();
+
+        retryButton.setOnClickListener(new View.OnClickListener(){
+                                          @Override
+                                          public void onClick(View view)
+                                          {
+                                              gameoverDialog.dismiss();
+                                              counterBeforeGame();
+                                          }
+                                      }
+        );
+
+        exitButton.setOnClickListener(new View.OnClickListener(){
+                                           @Override
+                                           public void onClick(View view)
+                                           {
+                                               Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                               startActivity(intent);
+                                               gameoverDialog.dismiss();
+                                           }
+                                       }
+        );
+
+        ScoreDelegator(dialogText);
+
+
+
+
+    }
+
+    public void ScoreDelegator(TextView dialogText){
+
+        SharedPreferences prefs = this.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
+        int highScoreEasy = prefs.getInt("easy", 0); //0 is the default value
+
+        Integer finalScore = Integer.parseInt(score.getText().toString());
+
+        if(finalScore>highScoreEasy)
+        {
+            Editor editor = prefs.edit();
+
+            editor.putInt("easy", finalScore);
+            editor.commit();
+            Toast.makeText(getApplicationContext(), "Meet the new Champion! High Score! ", Toast.LENGTH_LONG).show();
+        }
+
+        dialogText.setText("Score: " + finalScore +"\n" +"High Score: " +highScoreEasy);
+    }
+
+    private Runnable turleBlink = new Runnable() {
+        @Override
+        public void run() {
+            if (turtle.getTag().equals("open")) {
+                turtle.setImageResource(R.drawable.turtle_highscore_fullblink);
+                turtle.setTag("closed");
+            } else {
+                turtle.setImageResource(R.drawable.turtle_highscore_halfblink);
+                turtle.setTag("open");
+            }
+
+            //two blinks.. pause.. one blink.. pause..
+
+            if (blinkDelay == 100) {
+                blinkDelay = 110;
+                //secondTurtle.setImageResource(R.mipmap.turtle_ingame_2_1);
+                //secondTurtle.setTag("closed");
+            } else if (blinkDelay == 110)
+                blinkDelay = 112;
+            else if (blinkDelay == 112 || blinkDelay == 810) {
+                turtle.setImageResource(R.drawable.turtle_highscore_halfblink);
+                turtle.setTag("open");
+                blinkDelay = 1800;
+            } else if (blinkDelay == 1800)
+                blinkDelay = 101;
+            else if (blinkDelay == 101)
+                blinkDelay = 1801;
+            else if (blinkDelay == 1801)
+                blinkDelay = 100;
+
+            mHandler.postDelayed(turleBlink, blinkDelay);
+
+        }
+    };
 
     public void customToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();

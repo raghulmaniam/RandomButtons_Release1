@@ -1,3 +1,4 @@
+/*
 package com.mycloset.raghul.randombuttons_2;
 
 import android.content.Intent;
@@ -43,3 +44,4 @@ public class Infoctivity extends AppCompatActivity implements View.OnClickListen
 
 
 }
+*/
