@@ -12,7 +12,9 @@
         android:color="@color/colorBlack"
         />
 
-    <solid android:color="@color/colorPrimaryDark" />
+    <solid android:color="@color/colorGrey" />
+
+    <!--<solid android:color="@color/design_default_color_primary_dark" />-->
 
 
 

@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView about;
     private TextView highScore;
     private TextView exit;
-    private ImageView titleImage;
+    private TextView titleText;
 
     private Handler mHandler = new Handler();
 
@@ -54,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //--- To set Full Screen mode ---
         super.onCreate(savedInstanceState);
 
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //--- To set Full Screen mode ---
 
@@ -63,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         about = findViewById(R.id.about);
         highScore = findViewById(R.id.highscore);
         exit = findViewById(R.id.exit);
-        titleImage = findViewById(R.id.titleImage);
+        titleText = findViewById(R.id.titleText);
 
         mainFrameLayout = findViewById(R.id.dummyButtonLayout);
 
@@ -71,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         exit.setOnClickListener(this);
         highScore.setOnClickListener(this);
         about.setOnClickListener(this);
-        titleImage.setOnClickListener(this);
+        titleText.setOnClickListener(this);
 
         createButtonRunnable.run();
 
@@ -152,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(getApplicationContext(), "HighScore: " + scoreEasy , Toast.LENGTH_SHORT).show();
                 break;
             }
-            case R.id.titleImage:
+            case R.id.titleText:
             case R.id.about: {
                 //Intent intent = new Intent(getApplicationContext(), Infoctivity.class);
                 //startActivity(intent);
@@ -219,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             newButton();
             dummyButtonCounter++;
 
-            if(dummyButtonCounter<500)
+            if(dummyButtonCounter<200)
             mHandler.postDelayed(createButtonRunnable, 800);
         }
     };

@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainConstraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
     android:background="@drawable/margin"
     >
+
+
+    <ImageView
+        android:id="@+id/start"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:contentDescription="@string/desc"
+        app:srcCompat="@mipmap/start"
+        android:layout_centerInParent="true"
+        />
+
+
 
     <FrameLayout
         android:id="@+id/mainGameLayout"
@@ -19,11 +31,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.67"
+
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         >
 
     </FrameLayout>
@@ -34,76 +44,47 @@
         android:layout_height="77dp"
         android:layout_alignParentStart="true"
         android:contentDescription="@string/desc"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.072"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.98"
-        app:srcCompat="@mipmap/turtle_ingame_2" />
+        app:srcCompat="@mipmap/turtle_ingame_2"
+        android:layout_alignParentBottom="true"
+        />
 
-    <ImageView
-        android:id="@+id/start"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:contentDescription="@string/desc"
-        android:layout_alignParentTop="true"
-        app:layout_constraintBottom_toBottomOf="@+id/mainGameLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/mainGameLayout"
-        app:srcCompat="@mipmap/start" />
 
     <TextView
         android:id="@+id/CounterTextViewMain"
         android:layout_width="match_parent"
         android:layout_height="397dp"
 
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/primary_text_dark"
         android:textSize="80sp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.937"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_centerVertical="true"
+        />
 
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.9" />
 
-    <TextView
-        android:id="@+id/levelUpText"
-        android:layout_width="197dp"
-        android:layout_height="51dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_margin="1dp"
-        android:layout_marginStart="@dimen/fab_margin"
         android:background="@drawable/margin"
         android:backgroundTint="@color/black_overlay"
         android:orientation="horizontal"
-        android:paddingLeft="5dp"
+        android:paddingLeft="15dp"
         android:paddingTop="5dp"
-        android:paddingRight="5dp"
+        android:paddingRight="15dp"
         android:paddingBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/mainGameLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight=".5"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <LinearLayout
 
@@ -124,7 +105,9 @@
                         android:layout_height="match_parent"
                         android:text="@string/Score"
                         android:textColor="@color/cardview_light_background"
-                        android:textSize="12dp">
+                        android:textSize="12dp"
+                        android:layout_centerInParent="true"
+                        >
 
                     </TextView>
 
@@ -144,7 +127,7 @@
                         android:layout_height="match_parent"
                         android:foregroundGravity="top"
                         android:gravity="top"
-
+                        android:paddingLeft="5dp"
                         android:textColor="@color/cardview_light_background">
 
                     </TextView>
@@ -170,7 +153,9 @@
                         android:layout_height="match_parent"
                         android:text="@string/Time"
                         android:textColor="@color/cardview_light_background"
-                        android:textSize="12dp">
+                        android:textSize="12dp"
+                        android:layout_centerInParent="true"
+                        >
 
                     </TextView>
                 </RelativeLayout>
@@ -188,7 +173,7 @@
                         android:layout_height="match_parent"
                         android:foregroundGravity="top"
                         android:gravity="top"
-
+                        android:paddingLeft="5dp"
                         android:textColor="@color/cardview_light_background">
 
                     </TextView>
@@ -205,7 +190,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight=".5"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            >
 
             <LinearLayout
 
@@ -226,7 +213,8 @@
                         android:layout_height="24dp"
                         android:text="@string/Counter"
                         android:textColor="@color/cardview_light_background"
-                        android:textSize="12dp">
+                        android:textSize="12dp"
+                        android:layout_centerInParent="true">
 
                     </TextView>
                 </RelativeLayout>
@@ -242,7 +230,9 @@
                         android:id="@+id/CounterTextView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textColor="@color/cardview_light_background">
+                        android:textColor="@color/cardview_light_background"
+                        android:paddingLeft="5dp"
+                        >
 
                     </TextView>
 
@@ -270,7 +260,8 @@
                         android:ems="10"
                         android:text="@string/Speed"
                         android:textColor="@color/cardview_light_background"
-                        android:textSize="12dp">
+                        android:textSize="12dp"
+                        android:layout_centerInParent="true">
 
                     </TextView>
 
@@ -287,7 +278,9 @@
                         android:id="@+id/buttonSpeedView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textColor="@color/cardview_light_background">
+                        android:textColor="@color/cardview_light_background"
+                        android:paddingLeft="5dp"
+                        >
 
                     </TextView>
 
@@ -303,28 +296,27 @@
                         android:id="@+id/staticText"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="10dp"
                         android:text="@string/bPerSec"
-                        android:textColor="@color/cardview_light_background" />
+                        android:textColor="@color/cardview_light_background"
+                        android:textSize="10dp"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="5dp"
+                        />
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/progressbar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="80dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        >
 
-    <ImageView
-        android:id="@+id/titleImage"
-        android:layout_width="281dp"
-        android:layout_height="62dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:alpha="1"
-        android:src="@drawable/capture_randombuttons_new2"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.521"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6" />
-</android.support.constraint.ConstraintLayout>
+    </ProgressBar>
+</RelativeLayout>

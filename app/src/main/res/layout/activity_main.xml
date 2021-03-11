@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
     android:background="@drawable/margin"
 
 
@@ -11,7 +11,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="160dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:background="@color/colorBlack"
@@ -37,7 +37,7 @@
             android:fontFamily="@font/comic7"
             android:text="Enter"
             android:textSize="30dp"
-            android:layout_marginTop="26dp"
+            android:layout_marginTop="40dp"
             android:layout_alignParentRight="true"
             android:textColor="@color/colorPrimary">
 
@@ -53,7 +53,7 @@
             android:text="About"
             android:textSize="10dp"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="85dp"
+            android:layout_marginTop="95dp"
             android:textColor="@color/colorPrimary"
             ></TextView>
 
@@ -67,7 +67,7 @@
             android:text="Exit"
             android:textSize="10dp"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="110dp"
+            android:layout_marginTop="120dp"
             android:textColor="@color/colorPrimary">
 
         </TextView>
@@ -91,22 +91,18 @@
 
     </FrameLayout>
 
-    <ImageView
-        android:id="@+id/titleImage"
-        android:layout_width="281dp"
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
         android:layout_height="62dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:srcCompat="@drawable/capture_randombuttons_new2"
-        android:alpha="1"
+        android:textSize="35dp"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        />
-
-
-
+        android:layout_marginTop="20dp"
+        android:text="@string/title"
+        android:fontFamily="@font/comic1"
+        android:textColor="@color/design_default_color_primary_dark"/>
 
 
 </RelativeLayout>

@@ -82,7 +82,7 @@ public class GameSelection extends Activity implements View.OnClickListener {
 
         //zoom_in(mainFrameLayout, 400);
 
-        rotate_right(mainFrameLayout, 80000);
+        rotate_right(mainFrameLayout, 70000);
 
 
     }

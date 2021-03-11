@@ -1,4 +1,7 @@
 <resources>
+
+    <string name="title"><u>#RandomButtons</u></string>
+
     <string name="app_name">RandomButtons_2</string>
     <string name="title_activity_game">GameActivity</string>
 
@@ -13,7 +16,5 @@
     <string name="Counter">Counter</string>>
     <string name="Speed">Speed</string>>
     <string name="bPerSec">b/sec</string>>
-
-
 
 </resources>

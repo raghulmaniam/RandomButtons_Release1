@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
-import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -19,6 +18,7 @@ import android.os.Handler;
 import android.os.CountDownTimer;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Random;
 
 import android.content.Context;
@@ -45,8 +45,7 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
     public TextView counterValueMain;
     public TextView buttonSpeedView;
     public FrameLayout mainFrameLayout;
-    public TextView levelUpText;
-    public ConstraintLayout mainConstraintLayout;
+    public RelativeLayout mainConstraintLayout;
 
     //public Button start;
     public Boolean stopRandomButtons;
@@ -102,6 +101,9 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
 
     ImageView turtle; //to refactor the variable name
 
+    public ProgressBar progressBar;
+    public BigDecimal progressInt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -124,7 +126,7 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
         secondNegate = 42;
         thirdNegate = 15;
 
-        mainLayout = (ConstraintLayout) findViewById(R.id.mainConstraint);
+        mainLayout = (RelativeLayout) findViewById(R.id.mainConstraint);
 
 
         score = findViewById(R.id.scoreTextView);
@@ -132,10 +134,6 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
         counterValue = findViewById(R.id.CounterTextView);
         counterValueMain = findViewById(R.id.CounterTextViewMain);
         buttonSpeedView = findViewById(R.id.buttonSpeedView);
-        levelUpText = findViewById(R.id.levelUpText);
-
-        levelUpText.setText("Level Up!!");
-        levelUpText.setVisibility(View.GONE);
 
         secondTurtle = findViewById(R.id.secondTurtleImage);
         secondTurtle.setOnClickListener(this);
@@ -146,6 +144,8 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
 
         mainFrameLayout = findViewById(R.id.mainGameLayout);
         mainConstraintLayout = findViewById(R.id.mainConstraint);
+
+        progressBar = findViewById(R.id.progressbar);
 
         //initial values
         height = 50;
@@ -176,7 +176,7 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
 
 
         //rotateLeft(mainFrameLayout, 12000);
-        leftToRight(mainFrameLayout, 8000);
+        //customAnimation(mainFrameLayout, R.anim.lefttoright , 8000);
 
         /*Width
         Minimum: 50 Maximum: 450
@@ -262,87 +262,14 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
 
                 counterValue.setText(Integer.toString(counter));
 
-                switch (counter) {
-                    case 1: {
-                        mainConstraintLayout.setBackgroundResource(R.drawable.limit_1);
-                        break;
-                    }
-                    case 2: {
-                        mainConstraintLayout.setBackgroundResource(R.drawable.limit_2);
-                        break;
-                    }
-                    case 3: {
-                        mainConstraintLayout.setBackgroundResource(R.drawable.limit_3);
-                        break;
-                    }
-                    case 4: {
-                        mainConstraintLayout.setBackgroundResource(R.drawable.limit_4);
-                        break;
-                    }
-                    case 5: {
-                        mainConstraintLayout.setBackgroundResource(R.drawable.limit_5);
-                        break;
-                    }
-                    case 6: {
-                        mainConstraintLayout.setBackgroundResource(R.drawable.limit_6);
-                        break;
-                    }
-                    case 7: {
-                        mainConstraintLayout.setBackgroundResource(R.drawable.limit_7);
-                        break;
-                    }
-                    case 8: {
-                        mainConstraintLayout.setBackgroundResource(R.drawable.limit_8);
-                        break;
-                    }
-                    case 9: {
-                        mainConstraintLayout.setBackgroundResource(R.drawable.limit_9);
-                        break;
-                    }
-                    case 10: {
-                        mainConstraintLayout.setBackgroundResource(R.drawable.limit_10);
-                        break;
-                    }
-                    case 11: {
-                        mainConstraintLayout.setBackgroundResource(R.drawable.limit_11);
-                        break;
-                    }
-                    case 12: {
-                        mainConstraintLayout.setBackgroundResource(R.drawable.limit_12);
-                        break;
-                    }
-                    case 13: {
-                        mainConstraintLayout.setBackgroundResource(R.drawable.limit_13);
-                        break;
-                    }
-                    case 14: {
-                        mainConstraintLayout.setBackgroundResource(R.drawable.limit_14);
-                        break;
-                    }
-                    case 15: {
-                        mainConstraintLayout.setBackgroundResource(R.drawable.limit_15);
-                        break;
-                    }
+                progressInt = new BigDecimal(counter).divide(new BigDecimal(15), 2 , RoundingMode.UP).multiply(new BigDecimal(100));
 
-                }
+                progressBar.setProgress(progressInt.intValue());
 
-
-                /*if (buttonsClicked < 40) {
-                    curLevel = 4;
-                } else if (buttonsClicked < 30) {
-                    curLevel = 3;
-                } else if (buttonsClicked < 20) {
-                    curLevel = 2;
-                } else if (buttonsClicked < 10) {
-                    curLevel = 1;
-                }*/
-
-                //buttonsclicked was replaced with buttonsClickedForLevelChange to chnage that level with just butoons clicked count
-                // and not the score, this way level change will not slowdonw with every wrong move (outside click)
 
                 if (buttonsClickedForLevelChange > 160) {
                     if (curLevel == 7)
-                        customToast("Speed++");
+                        customToast("Speed++", Toast.LENGTH_LONG);
 
                     curLevel = 8;
                 } else if (buttonsClickedForLevelChange > 150 && curLevel <= 6) {
@@ -350,13 +277,13 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
                         callLevelUpText();
                     //rotateLeft(mainFrameLayout, 6000);
                     mainFrameLayout.clearAnimation();
-                    bounce(mainFrameLayout, 10000);
+                    customAnimation(mainFrameLayout, R.anim.bounce , 10000);
                     curLevel = 7;
                 } else if (buttonsClickedForLevelChange > 130 && curLevel <= 5) {
                     if (curLevel == 5)
                         callLevelUpText();
                     mainFrameLayout.clearAnimation();
-                    rotateLeft(mainFrameLayout, 8000);
+                    customAnimation(mainFrameLayout, R.anim.rotate_left,8000);
                     curLevel = 6;
                 } else if (buttonsClickedForLevelChange > 110 && curLevel <= 4) {
                     if (curLevel == 4)
@@ -364,21 +291,21 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
                     //rotateLeft(mainFrameLayout, 6000);
                     mainFrameLayout.clearAnimation();
                     //bounce(mainFrameLayout, 10000);
-                    zoom_out(mainFrameLayout, 10000);
+                    customAnimation(mainFrameLayout, R.anim.zoomout, 10000);
                     curLevel = 5;
                 } else if (buttonsClickedForLevelChange > 70 && curLevel <= 3) {
                     if (curLevel == 3)
                         callLevelUpText();
                     //rotateLeft(mainFrameLayout, 6000);
                     mainFrameLayout.clearAnimation();
-                    bounce(mainFrameLayout, 10000);
+                    customAnimation(mainFrameLayout, R.anim.bounce ,  10000);
                     curLevel = 4;
                 } else if (buttonsClickedForLevelChange > 50 && curLevel <= 2) {
                     if (curLevel == 2)
                         callLevelUpText();
                     mainFrameLayout.clearAnimation();
                     //tex_anim(mainFrameLayout, 10000);
-                    zoom_in(mainFrameLayout, 8000);
+                    customAnimation(mainFrameLayout, R.anim.zoomin, 8000);
                     //mainFrameLayout.clearAnimation();
                     curLevel = 3;
                 } else if (buttonsClickedForLevelChange > 30 && curLevel <= 1) {
@@ -386,7 +313,7 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
                         callLevelUpText();
                     mainFrameLayout.clearAnimation();
                     //tex_anim(mainFrameLayout, 10000);
-                    blink_anim(mainFrameLayout, 8000);
+                    customAnimation(mainFrameLayout, R.anim.blink_anim, 2000);
                     //mainFrameLayout.clearAnimation();
                     curLevel = 2;
                 } else if (buttonsClickedForLevelChange > 10 && curLevel == 0) {
@@ -395,13 +322,17 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
                     mainFrameLayout.clearAnimation();
                     //circularRotate(mainFrameLayout);
                     //fade_in(mainFrameLayout, 8000);
-                    fade_in(mainFrameLayout, 8000);
+                    customAnimation(mainFrameLayout, R.anim.fadein, 10000);
                     //mainFrameLayout.clearAnimation();
                     curLevel = 1;
                 }
 
 
                 if (counter < RandomButtonsConstants.GAMECOUNTERLIMIT) {
+
+                    //customAnimation(mainFrameLayout, R.anim.zoomin, 8000);
+                    //mainFrameLayout.clearAnimation();
+                   // customAnimation(mainFrameLayout, R.anim.zoomin, 8000);
                 /*
 
                 Setting Delay from Counter Value
@@ -536,7 +467,7 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
     }
 
     public void callLevelUpText() {
-        customToast("Level Up");
+        customToast("Level Up", Toast.LENGTH_SHORT);
         wokeUpMessage.run();
 
 
@@ -554,7 +485,7 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
 
 
                 counterValueMain.setText(Integer.toString(BigDecimal.ZERO.intValue()));
-                customToast("Start");
+                customToast("Start" , Toast.LENGTH_SHORT);
                 counterValueMain.setText(Integer.toString(0));
                 startGame();
                 counterUpAfterGame.run();
@@ -586,9 +517,6 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
 
     public void showgameoverDialog()
     {
-
-
-
         gameoverDialog = new Dialog(this);
         gameoverDialog.setContentView(R.layout.rules_dialog_2);
         gameoverDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -620,7 +548,8 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
                                           public void onClick(View view)
                                           {
                                               gameoverDialog.dismiss();
-                                              counterBeforeGame();
+                                              Intent intent = new Intent(getApplicationContext(), MainGameActivity.class);
+                                              startActivity(intent);
                                           }
                                       }
         );
@@ -638,8 +567,14 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
 
         ScoreDelegator(dialogText);
 
+    }
 
-
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        finish();
 
     }
 
@@ -656,7 +591,10 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
 
             editor.putInt("easy", finalScore);
             editor.commit();
-            Toast.makeText(getApplicationContext(), "Meet the new Champion! High Score! ", Toast.LENGTH_LONG).show();
+            customToast("Meet the new Champion! High Score! ", Toast.LENGTH_LONG);
+        }
+        else {
+            customToast( "I was so close to becoming the world champion.. So close..!" ,Toast.LENGTH_LONG);
         }
 
         dialogText.setText("Score: " + finalScore +"\n" +"High Score: " +highScoreEasy);
@@ -697,8 +635,8 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
         }
     };
 
-    public void customToast(String message) {
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    public void customToast(String message, int length ) {
+        Toast.makeText(getApplicationContext(), message, length).show();
     }
 
     public void startGame() {
@@ -712,7 +650,7 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
         button.setBackgroundResource(R.drawable.button_selector);
         button.setOnClickListener(this);
 
-        circularRotate(button);
+        //circularRotate(button);
 
         Random randomParam = new Random();
 
@@ -731,8 +669,8 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
         //height = (int) (((getResources().getDisplayMetrics().density) * (randomParam.nextInt(570) + 50) * 0.5) + 0.5f);
         //width = (int) (((getResources().getDisplayMetrics().density) * (randomParam.nextInt(360) + 50) * 0.5) + 0.5f);
 
-        height = (int) (((getResources().getDisplayMetrics().density) * (randomParam.nextInt(520) + 50) * 0.5) + 0.5f);
-        width = (int) (((getResources().getDisplayMetrics().density) * (randomParam.nextInt(350) + 50) * 0.5) + 0.5f);
+        height = (int) (((getResources().getDisplayMetrics().density) * (randomParam.nextInt(320) + 50) * 0.5) + 0.5f);
+        width = (int) (((getResources().getDisplayMetrics().density) * (randomParam.nextInt(150) + 50) * 0.5) + 0.5f);
 
         int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
         button.setBackgroundColor(color);
@@ -781,65 +719,16 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
         layout.startAnimation(anim);
     }
 
-    public void rotateLeft(FrameLayout layout, int duration) {
-        Animation anim = AnimationUtils.loadAnimation(this, R.anim.rotate_left);
+    public  void customAnimation (FrameLayout layout , int animType , int duration ){
+        Animation anim = AnimationUtils.loadAnimation(this, animType);
         anim.setDuration(duration);
         anim.setRepeatCount(Animation.INFINITE);
         layout.startAnimation(anim);
     }
 
-    public void leftToRight(FrameLayout layout, int duration) {
-        //Animation anim = AnimationUtils.loadAnimation(this, R.anim.lefttoright);
 
-        Animation anim = AnimationUtils.loadAnimation(this, R.anim.fadein);
-        anim.setDuration(duration);
-        anim.setRepeatCount(Animation.INFINITE);
-        layout.startAnimation(anim);
-    }
 
-    public void bounce(FrameLayout layout, int duration) {
-        Animation anim = AnimationUtils.loadAnimation(this, R.anim.bounce);
-        anim.setDuration(duration);
-        anim.setRepeatCount(Animation.INFINITE);
-        layout.startAnimation(anim);
-    }
-
-    public void zoom_in(FrameLayout layout, int duration) {
-        Animation anim = AnimationUtils.loadAnimation(this, R.anim.zoomin);
-        anim.setDuration(duration);
-        anim.setRepeatCount(Animation.INFINITE);
-        layout.startAnimation(anim);
-    }
-
-    public void zoom_out(FrameLayout layout, int duration) {
-        Animation anim = AnimationUtils.loadAnimation(this, R.anim.zoomout);
-        anim.setDuration(duration);
-        anim.setRepeatCount(Animation.INFINITE);
-        layout.startAnimation(anim);
-    }
-
-    public void tex_anim(FrameLayout layout, int duration) {
-        Animation anim = AnimationUtils.loadAnimation(this, R.anim.tex_anim);
-        anim.setDuration(duration);
-        anim.setRepeatCount(Animation.INFINITE);
-        layout.startAnimation(anim);
-    }
-
-    public void blink_anim(FrameLayout layout, int duration) {
-        Animation anim = AnimationUtils.loadAnimation(this, R.anim.blink_anim);
-        anim.setDuration(duration);
-        anim.setRepeatCount(Animation.INFINITE);
-        layout.startAnimation(anim);
-    }
-
-    public void fade_in(FrameLayout layout, int duration) {
-        Animation anim = AnimationUtils.loadAnimation(this, R.anim.fadein);
-        anim.setDuration(duration);
-        anim.setRepeatCount(Animation.INFINITE);
-        layout.startAnimation(anim);
-    }
-
-    public void circularRotate(ConstraintLayout layout) {
+    public void circularRotate(RelativeLayout layout) {
         Animation anim = new CircularRotateAnimation(layout, 60);
         //duration of animation
         anim.setDuration(1000);
@@ -875,7 +764,7 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
                         /*RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams)
                                 view.getLayoutParams();*/
 
-                        ConstraintLayout.LayoutParams lParams = (ConstraintLayout.LayoutParams)
+                        RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams)
                                 view.getLayoutParams();
 
                         xDelta = x - lParams.leftMargin;
@@ -891,7 +780,7 @@ public class MainGameActivity extends Activity implements View.OnClickListener {
                     case MotionEvent.ACTION_MOVE:
                         /*RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view
                                 .getLayoutParams();*/
-                        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams)
+                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)
                                 view.getLayoutParams();
                         layoutParams.leftMargin = x - xDelta;
                         layoutParams.topMargin = y - yDelta;
