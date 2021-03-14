@@ -26,30 +26,23 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView enter;
-    private TextView about;
-    private TextView highScore;
-    private TextView exit;
-    private TextView titleText;
+    //
+    //
+    //Developer: Raghul Subramaniam
+    //Email: raghulmaniam@gmail.com
+    //
+    //
 
     private Handler mHandler = new Handler();
-
     Random rnd = new Random();
-
-    public FrameLayout mainFrameLayout;
-
-    int width;
-    int height;
-
-    int leftMargin;
-    int topMargin;
-    int dummyButtonCounter;
-
+    private FrameLayout mainFrameLayout;
+    int width, height, leftMargin,topMargin,dummyButtonCounter;
     Dialog rulesDialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        TextView enter,about, highScore ,exit,titleText;
 
         //--- To set Full Screen mode ---
         super.onCreate(savedInstanceState);
@@ -57,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         //--- To set Full Screen mode ---
 
 
@@ -77,12 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         titleText.setOnClickListener(this);
 
         createButtonRunnable.run();
-
         zoom_in(mainFrameLayout, 40000);
-        //fade_in(mainFrameLayout, 2000);
-
-        //rotate(mainFrameLayout, 80000);
-
     }
 
     public void newButton() {
@@ -118,16 +105,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public void animate(Button button) {
-        //Animation anim = new CircularRotateAnimation(button, 60);
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.fadein);
 
-
-
-        //duration of animation
         anim.setDuration(400);
         anim.setRepeatCount(1);
 
-        //start the animation
         button.startAnimation(anim);
     }
 
@@ -157,11 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             case R.id.titleText:
             case R.id.about: {
-                //Intent intent = new Intent(getApplicationContext(), Infoctivity.class);
-                //startActivity(intent);
-
                 showRulesDialog();
-
                 break;
             }
         }
@@ -169,12 +147,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void showRulesDialog()
     {
-
         rulesDialog = new Dialog(this);
         rulesDialog.setContentView(R.layout.rules_dialog);
+
+        if(rulesDialog.getWindow()!= null)
         rulesDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        Button dialogOkay;
         TextView dialogText;
 
         dialogText = rulesDialog.findViewById(R.id.rulesText);
@@ -186,10 +164,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialogImage.setImageResource(R.mipmap.ic_launcher_foreground);
 
         Button button = rulesDialog.findViewById(R.id.dialogOkayButton);
-        button.setText("Back");
+        button.setText(R.string.Back);
 
-
-        dialogOkay = rulesDialog.findViewById(R.id.dialogOkayButton);
         rulesDialog.setCancelable(false);
 
         Window window = rulesDialog.getWindow();
@@ -198,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         window.setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
         rulesDialog.show();
 
-        dialogOkay.setOnClickListener(new View.OnClickListener(){
+        button.setOnClickListener(new View.OnClickListener(){
                                           @Override
                                           public void onClick(View view)
                                           {

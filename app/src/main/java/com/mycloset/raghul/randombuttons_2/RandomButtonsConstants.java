@@ -2,6 +2,14 @@ package com.mycloset.raghul.randombuttons_2;
 
 public class RandomButtonsConstants {
 
+    /*
+
+Developer: Raghul Subramaniam
+Email: raghulmaniam@gmail.com
+
+ */
+
+
     public static int GAMECOUNTERLIMIT = 15;
     public static int INITIALDELAY = 1000;
 
@@ -17,12 +25,5 @@ public class RandomButtonsConstants {
 
     public static String DISTURB_BULB = "bulb";
     public static String DISTURB_CLICK = "click";
-
-
-
-
-
-
-
 
 }

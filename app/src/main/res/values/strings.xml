@@ -2,7 +2,7 @@
 
     <string name="title"><u>#RandomButtons</u></string>
 
-    <string name="app_name">RandomButtons_2</string>
+    <string name="app_name">RandomButtons</string>
     <string name="title_activity_game">GameActivity</string>
 
     <string name="title_activity_score_board_layout">scoreBoardLayout</string>
@@ -10,8 +10,11 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="desc">Random Buttons Resources </string>>
 
+    <string name="game2">Memory Buttons under Development.. Wait for the next patch... </string>>
+
 
     <string name="Time">Time </string>>
+    <string name="Back">Back </string>>
     <string name="Score">Score</string>>
     <string name="Counter">Counter</string>>
     <string name="Speed">Speed</string>>

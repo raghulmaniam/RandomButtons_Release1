@@ -316,6 +316,7 @@
         android:layout_marginTop="80dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:progressDrawable="@drawable/progressbar"
         >
 
     </ProgressBar>

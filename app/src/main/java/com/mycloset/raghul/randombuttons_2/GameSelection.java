@@ -21,49 +21,36 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.w3c.dom.Text;
+/*
+
+Developer: Raghul Subramaniam
+Email: raghulmaniam@gmail.com
+
+ */
+
 
 import java.util.Random;
 
 public class GameSelection extends Activity implements View.OnClickListener {
 
-    public Button game1;
-    public Button game2;
-
-    public Button dummyButton;
-
-
     Dialog rulesDialog;
-
-
     private Handler mHandler = new Handler();
     Random rnd = new Random();
-
-    public FrameLayout mainFrameLayout;
-
-    int width;
-    int height;
-
-    int leftMargin;
-    int topMargin;
-    int dummyButtonCounter;
-
-
+    private FrameLayout mainFrameLayout;
+    int width,height,leftMargin,topMargin,dummyButtonCounter ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        Button game1, game2;
 
         //--- To set Full Screen mode ---
-
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         //--- To set Full Screen mode ---
 
         setContentView(R.layout.activity_game_selection);
@@ -71,19 +58,13 @@ public class GameSelection extends Activity implements View.OnClickListener {
         game1 = findViewById(R.id.button_game1); //Random Buttons
         game2 = findViewById(R.id.button_game2); //Memory Buttons
 
-
         mainFrameLayout = findViewById(R.id.dummyButtonLayout2);
 
         game1.setOnClickListener(this);
         game2.setOnClickListener(this);
 
-
         createButtonRunnable.run();
-
-        //zoom_in(mainFrameLayout, 400);
-
         rotate_right(mainFrameLayout, 70000);
-
 
     }
 
@@ -105,17 +86,9 @@ public class GameSelection extends Activity implements View.OnClickListener {
         layout.startAnimation(anim);
     }
 
-    public void zoom_in(FrameLayout layout, int duration) {
-        Animation anim = AnimationUtils.loadAnimation(this, R.anim.zoomin);
-        anim.setDuration(duration);
-        anim.setRepeatCount(Animation.INFINITE);
-        layout.startAnimation(anim);
-    }
-
     public void newButton() {
         Button button = new Button(this);
         button.setBackgroundResource(R.drawable.button_selector);
-        //button.setOnClickListener(this);
 
         animate(button);
 
@@ -127,7 +100,6 @@ public class GameSelection extends Activity implements View.OnClickListener {
         leftMargin = (int) (((getResources().getDisplayMetrics().density) * (randomParam.nextInt(260) + 10) * 0.8) + 0.5f);
         topMargin = (int) (((getResources().getDisplayMetrics().density) * (randomParam.nextInt(380) + 10) * 0.8) + 0.5f);
 
-
         int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
 
         GradientDrawable shape =  new GradientDrawable();
@@ -135,13 +107,7 @@ public class GameSelection extends Activity implements View.OnClickListener {
         shape.setStroke(5,Color.BLACK);
 
         shape.setColor(color);
-
-        //button.setBackgroundColor(color);
         button.setBackground(shape);
-
-        //button.setBackgroundColor(color);
-
-
 
         LinearLayout.LayoutParams layoutparams = new LinearLayout.LayoutParams(width, height);
         layoutparams.setMargins(leftMargin, topMargin, 0, 0);
@@ -150,37 +116,32 @@ public class GameSelection extends Activity implements View.OnClickListener {
     }
 
     public void animate(Button button) {
-        //Animation anim = new CircularRotateAnimation(button, 60);
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.lefttoright);
 
-
-
-        //duration of animation
         anim.setDuration(4000);
         anim.setRepeatCount(1);
 
-        //start the animation
         button.startAnimation(anim);
     }
 
     public void showRulesDialog()
     {
-
         rulesDialog = new Dialog(this);
         rulesDialog.setContentView(R.layout.rules_dialog);
+
+        if(rulesDialog.getWindow()!= null)
         rulesDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         Button dialogOkay;
         TextView dialogText;
 
         dialogText = rulesDialog.findViewById(R.id.rulesText);
-        dialogText.setText("Memory Buttons under Development.. Wait for the next patch.. ");
+        dialogText.setText(R.string.game2);
 
         ImageView dialogImage;
 
         dialogImage = rulesDialog.findViewById(R.id.dialogImage);
         dialogImage.setImageResource(R.drawable.happy_smiley);
-
 
         dialogOkay = rulesDialog.findViewById(R.id.dialogOkayButton);
         rulesDialog.setCancelable(false);
@@ -201,7 +162,6 @@ public class GameSelection extends Activity implements View.OnClickListener {
         );
     }
 
-
     @Override
     public void onClick(View view){
 
@@ -210,19 +170,13 @@ public class GameSelection extends Activity implements View.OnClickListener {
                 Intent intent = new Intent(getApplicationContext(), MainGameActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fadein, R.anim.zoomin_activity);
-
                 break;
             }
             case R.id.button_game2: {
-               // Intent intent = new Intent(getApplicationContext(), MemoryButtons.class);
-                //startActivity(intent);
                 showRulesDialog();
-                //Toast.makeText(getApplicationContext(), "Memory Buttons under Development.. Wait for the next patch.. "  , Toast.LENGTH_SHORT).show();
-
                 break;
             }
         }
-
     }
 }
 
