@@ -1,5 +1,6 @@
 package com.mycloset.raghul.randombuttons_2;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -415,6 +417,8 @@ Email: raghulmaniam@gmail.com
         new CountDownTimer(4000, 1000) {
 
             public void onTick(long millisUntilFinished) {
+                Long val = millisUntilFinished / 1000;
+                counterValueMain.setText(Integer.toString(val.intValue()));
             }
 
             public void onFinish() {
@@ -432,7 +436,6 @@ Email: raghulmaniam@gmail.com
 
             public void onTick(long millisUntilFinished) {
 
-                customToast(String.valueOf(millisUntilFinished), Toast.LENGTH_SHORT);
                 if( millisUntilFinished < 1600) {
                     if (millisUntilFinished > 1101 )
                         dialogFixedTest.setVisibility(View.VISIBLE);
@@ -603,9 +606,20 @@ Email: raghulmaniam@gmail.com
         button.startAnimation(anim);
     }
 
+    public void anim(Button button) {
+        Animation anim;
+        anim = AnimationUtils.loadAnimation(this, R.anim.rotate_and_zoom);
+
+        anim.setDuration(40);
+        anim.setRepeatCount(1);
+
+        button.startAnimation(anim);
+    }
+
+
+    @SuppressLint("ClickableViewAccessibility")
     public void newButton() {
-        Button button = new Button(this);
-        button.setBackgroundResource(R.drawable.button_selector);
+        final Button button = new Button(this);
         button.setOnClickListener(this);
 
         animate(button);
@@ -622,28 +636,31 @@ Email: raghulmaniam@gmail.com
         Minimum: 1  Minimum: 400/500
         */
 
-        height = (int) (((getResources().getDisplayMetrics().density) * (randomParam.nextInt(320) + 50) * 0.5) + 0.5f);
+        height = (int) (((getResources().getDisplayMetrics().density) * (randomParam.nextInt(150) + 50) * 0.5) + 0.5f);
         width = (int) (((getResources().getDisplayMetrics().density) * (randomParam.nextInt(150) + 50) * 0.5) + 0.5f);
 
+        leftMargin = (int) (((getResources().getDisplayMetrics().density) * (randomParam.nextInt(300) + 10) * 0.8) + 0.5f);
+        topMargin = (int) (((getResources().getDisplayMetrics().density) * (randomParam.nextInt(440) + 10) * 0.8) + 0.5f);
+
         int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-        button.setBackgroundColor(color);
+
+       // button.setBackgroundColor(color);
 
         GradientDrawable shape =  new GradientDrawable();
-        shape.setCornerRadius( 8 );
+        shape.setCornerRadius( 12 );
         shape.setStroke(5,Color.BLACK);
 
         shape.setColor(color);
 
         button.setBackground(shape);
 
-        leftMargin = (int) (((getResources().getDisplayMetrics().density) * (randomParam.nextInt(300) + 10) * 0.8) + 0.5f);
-        topMargin = (int) (((getResources().getDisplayMetrics().density) * (randomParam.nextInt(440) + 10) * 0.8) + 0.5f);
-
         LayoutParams layoutparams = new LinearLayout.LayoutParams(width, height);
         layoutparams.setMargins(leftMargin, topMargin, 0, 0);
 
         mainFrameLayout.addView(button, layoutparams);
     }
+
+
 
     public  void customAnimation (FrameLayout layout , int animType , int duration ){
 

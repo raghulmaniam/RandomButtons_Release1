@@ -74,7 +74,7 @@ public class GameSelection extends Activity implements View.OnClickListener {
             newButton();
             dummyButtonCounter++;
 
-            if(dummyButtonCounter<500)
+            if(dummyButtonCounter<50)
                 mHandler.postDelayed(createButtonRunnable, 800);
         }
     };

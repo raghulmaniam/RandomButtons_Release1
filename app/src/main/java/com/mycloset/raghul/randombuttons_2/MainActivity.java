@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             newButton();
             dummyButtonCounter++;
 
-            if(dummyButtonCounter<200)
+            if(dummyButtonCounter<50)
             mHandler.postDelayed(createButtonRunnable, 800);
         }
     };
